@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lời muốn nói</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-image: url('https://marketplace.canva.com/EAFFKiXXzRg/1/0/1600w/canva-m%C3%A0u-h%E1%BB%93ng-v%C3%A0-n%C3%A2u-g%E1%BA%A5u-v%C3%A0-th%E1%BB%8F-%C4%91%C3%A1ng-y%C3%AAu-h%C3%ACnh-n%E1%BB%81n-m%C3%A1y-t%C3%ADnh-%C4%91%C6%A1n-gi%E1%BA%A3n-sk47afVzfio.jpg');
+            background-size: cover;
+            background-position: All;
+            text-align: center;
+            color: Black; /* Đổi màu chữ để phù hợp với nền */
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8); /* Nền trắng với độ mờ để không làm mất hình nền */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9); /* Nền trắng với độ mờ để dễ đọc nội dung */
+            border: 2px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            color: black; /* Màu chữ trong pop-up */
+        }
+
+        .popup img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff0000;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #message-popup textarea {
+            width: 100%;
+            height: 60px;
+            margin: 10px 0;
+        }
+
+        #message-popup button {
+            background-color: #4CAF50;
+        }
+
+        #message-popup button:hover {
+            background-color: #45a049;
+        }
+
+        #final-popup button {
+            background-color: #ff4d4d;
+        }
+
+        #final-popup button:hover {
+            background-color: #ff0000;
+        }
+
+        #dream-btn {
+            position: relative;
+        }
+
+        #dream-btn:hover {
+            position: absolute;
+            top: calc(50% - 25px);
+            left: calc(50% - 50px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <p>Loading...</p>
+    </div>
+
+    <!-- Initial Pop-up -->
+    <div id="initial-popup" class="popup">
+        <img src="https://i.pinimg.com/736x/d1/fd/ce/d1fdce14bc1339d260cf209b39c8859f.jpg" alt="Image" class="popup-image">
+        <p>Chào cậu! Tớ có điều này muốn nói với cậu</p>
+        <button id="ok-btn">OK</button>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="hidden">
+        <h1>Tớ Nhớ Cậu</h1>
+        <h5>Nếu cậu không trả lời mà thoát ra tức là cậu chắc chắn làm chồng tương lai của tớ. Đừng nghĩ là tớ mơ mộng vì cậu xứng đáng với điều đó mà. Hehe</h5>
+        <button id="dream-btn">Cậu mơ đi</button>
+        <button id="miss-btn">Tớ cũng nhớ cậu</button>
+    </div>
+
+    <!-- Message Pop-up -->
+    <div id="message-popup" class="popup hidden">
+        <h1>Vậy cậu vẫn sẽ đồng hành cùng tớ trên chặng hành trình sắp tới nữa chứ?</h1>
+        <textarea id="response-text" placeholder="Nhập câu trả lời của bạn"></textarea>
+        <button id="send-btn">Gửi cho tớ iii mò</button>
+    </div>
+
+    <!-- Final Pop-up -->
+    <div id="final-popup" class="popup hidden">
+        <h1>Tớ biết mà</h1>
+        <p>Dù kết quả là gì thì tớ vẫn luôn tôn trọng quyết định của cậu</p>
+        <button id="love-btn">Love you</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const initialPopup = document.getElementById('initial-popup');
+            const okBtn = document.getElementById('ok-btn');
+            const mainContent = document.getElementById('main-content');
+            const dreamBtn = document.getElementById('dream-btn');
+            const missBtn = document.getElementById('miss-btn');
+            const messagePopup = document.getElementById('message-popup');
+            const sendBtn = document.getElementById('send-btn');
+            const finalPopup = document.getElementById('final-popup');
+            const loveBtn = document.getElementById('love-btn');
+
+            // Simulate loading screen
+            setTimeout(function() {
+                loadingScreen.style.display = 'none';
+                initialPopup.style.display = 'block';
+            }, 2000);
+
+            // Handle OK button click
+            okBtn.addEventListener('click', function() {
+                initialPopup.style.display = 'none';
+                mainContent.style.display = 'block';
+            });
+
+            // Handle button clicks on main content
+            dreamBtn.addEventListener('mouseover', function() {
+                dreamBtn.style.position = 'absolute';
+                dreamBtn.style.top = `${Math.random() * 80 + 10}%`;
+                dreamBtn.style.left = `${Math.random() * 80 + 10}%`;
+            });
+
+            missBtn.addEventListener('click', function() {
+                mainContent.style.display = 'none';
+                messagePopup.style.display = 'block';
+            });
+
+            // Handle send button click in message popup
+            sendBtn.addEventListener('click', function() {
+                messagePopup.style.display = 'none';
+                finalPopup.style.display = 'block';
+            });
+
+            // Handle Love you button click in final popup
+            loveBtn.addEventListener('click', function() {
+                finalPopup.style.display = 'none';
+                mainContent.style.display = 'block'; // Go back to main content
+            });
+        });
+    </script>
+</body>
+</html>
